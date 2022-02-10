@@ -41,7 +41,7 @@ app.all('/', function (req, res) {
         city = 'Tartu'
     }
     if(req.method == 'POST'){
-        city= req.body.cityname
+        city = req.body.cityname
     }
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
     getWeatherDataPromise(url)
@@ -49,7 +49,11 @@ app.all('/', function (req, res) {
             res.render('index', data)
         })
         .catch(error => {
-            res.render('index', {error: 'Problem with getting data, try again'})
+            if(city === ''){
+                res.render('index', {error: 'City name empty, please fill in a correct city name'})
+            } else {
+                res.render('index', {error: 'Problem with getting data, try again'})
+            }
         })
 })
 
